@@ -1,153 +1,90 @@
+/**
+ * @file main.c
+ * @author Ivanov de Almeida Moraes
+ * @date 21-02-2018
+ */
+
 #include <stdio.h>
 #include <string.h>
-#include <locale.h>
-#include "estruturas.h"
+#include "variaveis.h"
 #include "prototipos.h"
+#include "funcoes.c"
 
 int main() {
-	int i;
-	char op;
-	struct banda bandas[5];
+	int i, op, loop = 1;
+	char str[80];
+	struct banda bandas[TAM];
 
-	locale();
-
-	while(1){
+	while(loop){
 		
-	setlocale(LC_ALL, "pt_BR_utf8");
-		printf("á b é @ ç\n");
-		//mostrarOpcoes();
-		scanf(" %c", &op);
-		system("cls|clear");
+		mostrarOpcoes();
+		scanf(" %d", &op);
+		clear();
 
 		switch(op){
-			case 'a':
+
+			case 1:
 				cadastrarBandas(bandas);
 				printf("\n\nBandas cadastradas...\n");
 				break;
-			case 'b':
+
+			case 2:
 				imprimirBandas(bandas);
 				printf("\n\n");
 				break;
-			case 'c':
+
+			case 3:
 				printf("Escolha um indice para modificar\n");
 				scanf("%d", &i);
 				i--;
-				if(i >= 0 && i <= 5){
+				if(i >= 0 && i <= TAM)
 					modificarBanda(&bandas[i]);
-					printf("\nBanda modificada...\n");
-				}
 				else
 					printf("Indice inválido!\n");
 				break;
-			default:
-				printf("Opção inválida!\n");
+
+			case 4:
+				printf("Informe um ranking para a busca: ");
+				scanf(" %d", &i);
+				i = buscarPorRanking(bandas, i);
+				if(i >= 0)
+					imprimirBanda(&bandas[i]);
+				else
+					printf("Ranking não encontrado!\n");
 				break;
-		}	
-		printf("Aperte qualquer tecla para voltar ao menu...\n");
-		getchar();
-		getchar();
+
+			case 5:
+				getchar();
+				printf("Informe um tipo para a busca: ");
+				gets(str);
+				buscarPorTipo(bandas, str);
+				break;
+
+			case 6:
+				getchar();
+				printf("Informe o nome de uma banda: ");
+				gets(str);
+				clear();
+				if(inBandaArray(bandas, str))
+					printf("\nA banda [ %s ] está no seu TOP 5!\n", str);
+				else
+					printf("A banda [ %s ] não está no seu TOP 5!\n", str);
+				break;
+
+            case 0:
+                loop = 0;
+                break;
+
+			default:
+				printf(ANSI_COLOR_RED "Opção inválida!\n\n" ANSI_COLOR_RESET);
+				break;
+
+		}
+        if(op != 0)
+		    pause();
 	}
+
+    printf(ANSI_COLOR_RED "\nAplicação encerrada!\n\n" ANSI_COLOR_RESET );
 
 	return 0;
-}
-
-void mostrarOpcoes(){
-	locale();
-	system("cls|clear");
-	printf("\n");
-	printf("------- Menu -------\n");
-	printf("a - Cadastar Bandas\n");
-	printf("b - Imprimir Bandas\n");
-	printf("C - Modificar Banda\n");
-}
-
-void cadastrarBanda(struct banda *b){
-	locale();
-	getchar();
-	printf("Nome da banda: ");
-	gets(b->nome);
-	printf("Tipo: ");
-	gets(b->tipo);
-	printf("Número de integrantes: ");
-	scanf("%d", &b->n_integrantes);
-	printf("Ranking: ");
-	scanf("%d", &b->pos_ranking);
-}
-
-void cadastrarBandas(struct banda b[5]){
-	locale();
-	for(int i=0; i < 5; i++){
-		getchar();
-		printf("%dª banda\n", i+1);
-		printf("Nome da banda: ");
-		gets(b[i].nome);
-		printf("Tipo: ");
-		gets(b[i].tipo);
-		printf("Número de integrantes: ");
-		scanf("%d", &b[i].n_integrantes);
-		printf("Ranking: ");
-		scanf("%d", &b[i].pos_ranking);
-		system("cls|clear");
-	}	
-}
-
-void imprimirBandas(struct banda b[5]){
-	locale();
-	for(int i=0; i < 5; i++){
-		printf("\n");
-		printf("Nome: %s\n", b[i].nome);
-		printf("Tipo: %s\n", b[i].tipo);
-		printf("Quantidade de integrantes: %d\n", b[i].n_integrantes);
-		printf("Ranking: %d\n", b[i].pos_ranking);
-	}
-}
-
-void modificarBanda(struct banda *b){
-	locale();
-	system("cls|clear");
-	int op, loop = 1;
-
-	while(1){
-		printf("Modificando banda.\nSelecione o item que deseja alterar: \n");
-		printf("[1] - Alterar nome da banda [ %s ]\n", b->nome);
-		printf("[2] - Alterar tipo da banda [ %s ]\n", b->tipo);
-		printf("[3] - Alterar número de integrantes [ %d ]\n", b->n_integrantes);
-		printf("[4] - Alterar posição no ranking [ %d ]\n", b->pos_ranking);
-		printf("\n");
-		printf("[5] - Finalizar alterações\n");
-		scanf(" %d", &op);
-
-		switch(op){
-			case 1:
-				printf("Novo nome para a banda: ");
-				gets(b->nome);
-				break;
-			case 2:
-				printf("Novo tipo para a banda: ");
-				gets(b->tipo);
-				break;
-			case 3:
-				printf("Nova quantidade de integrantes: ");
-				scanf("%d", &b->n_integrantes);
-				break;
-			case 4:
-				printf("Nova posição no ranking: ");
-				scanf("%d", &b->pos_ranking);
-				break;
-			case 5:
-				loop = 0;
-				break;
-			default:
-				printf("Opção inválida!\n");
-				break;
-		}
-	}
-
-	printf("Alterações finalizadas...\n");
-
-}	
-
-void locale(){
-
-	printf("%s\n", setlocale(LC_ALL, "pt_BR_utf8"));
 }
