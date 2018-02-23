@@ -18,11 +18,20 @@ void mostrarOpcoes(){
 	printf(ANSI_COLOR_MAGENTA " [ 3 ]" ANSI_COLOR_RESET ANSI_COLOR_CYAN " Modificar Banda\n" ANSI_COLOR_RESET);
 	printf(ANSI_COLOR_MAGENTA " [ 4 ]" ANSI_COLOR_RESET ANSI_COLOR_CYAN " Buscar por Ranking\n" ANSI_COLOR_RESET);
 	printf(ANSI_COLOR_MAGENTA " [ 5 ]" ANSI_COLOR_RESET ANSI_COLOR_CYAN " Buscar por Tipo\n" ANSI_COLOR_RESET);
-	printf(ANSI_COLOR_MAGENTA " [ 6 ]" ANSI_COLOR_RESET ANSI_COLOR_CYAN " Buscar no TOP 5\n" ANSI_COLOR_RESET);
+	printf(ANSI_COLOR_MAGENTA " [ 6 ]" ANSI_COLOR_RESET ANSI_COLOR_CYAN " Buscar por Nome 5\n" ANSI_COLOR_RESET);
 	printf("\n");
 	printf(ANSI_COLOR_MAGENTA " [ 0 ]" ANSI_COLOR_RESET ANSI_COLOR_CYAN " Sair\n" ANSI_COLOR_RESET);
 	//printf(ANSI_COLOR_MAGENTA "\n--------------------------" ANSI_COLOR_RESET);
-	printf(ANSI_COLOR_MAGENTA "\n=> " ANSI_COLOR_RESET);
+	printf(ANSI_COLOR_MAGENTA "\n=> " ANSI_COLOR_YELLOW);
+}
+
+/**
+ * @fn resetarCorConsole()
+ * @brief Resetar cor do console para branco
+ * @return void
+ */
+void resetarCorConsole() {
+    printf(ANSI_COLOR_RESET);
 }
 
 /**
@@ -33,14 +42,15 @@ void mostrarOpcoes(){
  */
 void cadastrarBanda(struct banda *b){
 	getchar();
-	printf("Nome da banda: ");
+	printf(ANSI_COLOR_CYAN "Nome da banda: " ANSI_COLOR_YELLOW);
 	gets(b->nome);
-	printf("Tipo: ");
+	printf(ANSI_COLOR_CYAN "Tipo: " ANSI_COLOR_YELLOW);
 	gets(b->tipo);
-	printf("Número de integrantes: ");
+	printf(ANSI_COLOR_CYAN "Número de integrantes: " ANSI_COLOR_YELLOW);
 	scanf("%d", &b->n_integrantes);
-	printf("Ranking: ");
+	printf(ANSI_COLOR_CYAN "Ranking: " ANSI_COLOR_YELLOW);
 	scanf("%d", &b->pos_ranking);
+    resetarCorConsole();
 }
 
 /**
@@ -52,16 +62,17 @@ void cadastrarBanda(struct banda *b){
 void cadastrarBandas(struct banda b[TAM]){
 	for(int i=0; i < TAM; i++){
 		getchar();
-		printf("%dª banda\n", i+1);
-		printf("Nome da banda: ");
+		printf(ANSI_COLOR_MAGENTA "%dª banda\n", i+1);
+		printf(ANSI_COLOR_CYAN "Nome da banda: " ANSI_COLOR_YELLOW);
 		gets(b[i].nome);
-		printf("Tipo: ");
+		printf(ANSI_COLOR_CYAN "Tipo: " ANSI_COLOR_YELLOW);
 		gets(b[i].tipo);
-		printf("Número de integrantes: ");
+		printf(ANSI_COLOR_CYAN "Número de integrantes: " ANSI_COLOR_YELLOW);
 		scanf("%d", &b[i].n_integrantes);
-		printf("Ranking: ");
+		printf(ANSI_COLOR_CYAN "Ranking: " ANSI_COLOR_YELLOW);
 		scanf("%d", &b[i].pos_ranking);
 		clear();
+        resetarCorConsole();
 	}	
 }
 
@@ -72,12 +83,12 @@ void cadastrarBandas(struct banda b[TAM]){
  * @return void
  */
 void imprimirBanda(struct banda *b){
-	printf("---------------------------------------------------\n\n");
-	printf("Nome: %s\n", b->nome);
-	printf("Tipo: %s\n", b->tipo);
-	printf("Quantidade de integrantes: %d\n", b->n_integrantes);
-	printf("Ranking: %d\n", b->pos_ranking);
-	printf("\n---------------------------------------------------\n");
+	printf( ANSI_COLOR_MAGENTA "---------------------------------------------------\n\n" ANSI_COLOR_RESET);
+	printf( ANSI_COLOR_CYAN "Nome: " ANSI_COLOR_YELLOW "%s\n", b->nome);
+	printf( ANSI_COLOR_CYAN "Tipo: " ANSI_COLOR_YELLOW "%s\n", b->tipo);
+	printf( ANSI_COLOR_CYAN "Quantidade de integrantes:" ANSI_COLOR_YELLOW " %d\n", b->n_integrantes);
+	printf( ANSI_COLOR_CYAN "Ranking: " ANSI_COLOR_YELLOW "%d\n", b->pos_ranking);
+	printf(ANSI_COLOR_MAGENTA "\n---------------------------------------------------\n" ANSI_COLOR_RESET);
 }
 
 /**
@@ -87,15 +98,15 @@ void imprimirBanda(struct banda *b){
  * @return void
  */
 void imprimirBandas(struct banda b[TAM]){
-	printf("---------------------------------------------------\n");
+	printf( ANSI_COLOR_MAGENTA "---------------------------------------------------\n" ANSI_COLOR_RESET );
 	for(int i=0; i < TAM; i++){
 		printf("\n");
-		printf("ID: %d\n", i+1);
-		printf("Nome: %s\n", b[i].nome);
-		printf("Tipo: %s\n", b[i].tipo);
-		printf("Quantidade de integrantes: %d\n", b[i].n_integrantes);
-		printf("Ranking: %d\n", b[i].pos_ranking);
-		printf("\n---------------------------------------------------\n");
+		printf( ANSI_COLOR_CYAN "ID: " ANSI_COLOR_YELLOW "%d\n", i+1);
+		printf( ANSI_COLOR_CYAN "Nome: " ANSI_COLOR_YELLOW "%s\n", b[i].nome);
+		printf( ANSI_COLOR_CYAN "Tipo: " ANSI_COLOR_YELLOW "%s\n", b[i].tipo);
+		printf( ANSI_COLOR_CYAN "Quantidade de integrantes: " ANSI_COLOR_YELLOW "%d\n", b[i].n_integrantes);
+		printf( ANSI_COLOR_CYAN "Ranking: " ANSI_COLOR_YELLOW "%d\n", b[i].pos_ranking);
+		printf( ANSI_COLOR_MAGENTA "\n---------------------------------------------------\n" ANSI_COLOR_RESET );
 	}
 }
 
@@ -111,43 +122,43 @@ void modificarBanda(struct banda *b){
 
 	while(loop){
 		clear();
-		printf("Selecione o item que deseja alterar: \n");
-		printf(" [ 1 ] - Alterar nome da banda [ %s ]\n", b->nome);
-		printf(" [ 2 ] - Alterar tipo da banda [ %s ]\n", b->tipo);
-		printf(" [ 3 ] - Alterar número de integrantes [ %d ]\n", b->n_integrantes);
-		printf(" [ 4 ] - Alterar posição no ranking [ %d ]\n", b->pos_ranking);
-		printf(" [ 5 ] - Alterar todos os campos\n");
+		printf( ANSI_COLOR_MAGENTA "Selecione o item que deseja alterar: \n" ANSI_COLOR_RESET );
+		printf( ANSI_COLOR_MAGENTA " [ 1 ] " ANSI_COLOR_CYAN " Alterar nome da banda" ANSI_COLOR_YELLOW " [ %s ]\n", b->nome);
+		printf( ANSI_COLOR_MAGENTA " [ 2 ] " ANSI_COLOR_CYAN " Alterar tipo da banda" ANSI_COLOR_YELLOW " [ %s ]\n", b->tipo);
+		printf( ANSI_COLOR_MAGENTA " [ 3 ] " ANSI_COLOR_CYAN " Alterar número de integrantes" ANSI_COLOR_YELLOW " [ %d ]\n", b->n_integrantes);
+		printf( ANSI_COLOR_MAGENTA " [ 4 ] " ANSI_COLOR_CYAN " Alterar posição no ranking" ANSI_COLOR_YELLOW " [ %d ]\n", b->pos_ranking);
+		printf( ANSI_COLOR_MAGENTA " [ 5 ] " ANSI_COLOR_CYAN " Alterar todos os campos\n");
 		printf("\n");
-		printf(" [ 0 ] - Finalizar alterações\n");
-		printf("\n=> ");
+		printf( ANSI_COLOR_MAGENTA " [ 0 ] " ANSI_COLOR_CYAN " Finalizar alterações\n");
+		printf( ANSI_COLOR_MAGENTA "\n=> " ANSI_COLOR_YELLOW);
 		scanf(" %d", &op);
 		getchar();
 		clear();
 		switch(op){
 			case 1:
-				printf("Novo nome para a banda: ");
+				printf( ANSI_COLOR_CYAN "Novo nome para a banda: " ANSI_COLOR_YELLOW);
 				gets(b->nome);
 				break;
 			case 2:
-				printf("Novo tipo para a banda: ");
+				printf( ANSI_COLOR_CYAN "Novo tipo para a banda: " ANSI_COLOR_YELLOW);
 				gets(b->tipo);
 				break;
 			case 3:
-				printf("Nova quantidade de integrantes: ");
+				printf( ANSI_COLOR_CYAN "Nova quantidade de integrantes: " ANSI_COLOR_YELLOW);
 				scanf("%d", &b->n_integrantes);
 				break;
 			case 4:
-				printf("Nova posição no ranking: ");
+				printf( ANSI_COLOR_CYAN "Nova posição no ranking: " ANSI_COLOR_YELLOW);
 				scanf("%d", &b->pos_ranking);
 				break;
 			case 5:
-				printf("Novo nome para a banda: ");
+				printf( ANSI_COLOR_CYAN "Novo nome para a banda: " ANSI_COLOR_YELLOW);
 				gets(b->nome);
-				printf("Novo tipo para a banda: ");
+				printf( ANSI_COLOR_CYAN "Novo tipo para a banda: " ANSI_COLOR_YELLOW);
 				gets(b->tipo);
-				printf("Nova quantidade de integrantes: ");
+				printf( ANSI_COLOR_CYAN "Nova quantidade de integrantes: " ANSI_COLOR_YELLOW);
 				scanf("%d", &b->n_integrantes);
-				printf("Nova posição no ranking: ");
+				printf( ANSI_COLOR_CYAN "Nova posição no ranking: " ANSI_COLOR_YELLOW);
 				scanf("%d", &b->pos_ranking);
 				break;
 			case 0:
@@ -159,7 +170,7 @@ void modificarBanda(struct banda *b){
 		}
 	}
 
-	printf(ANSI_COLOR_GREEN   "Alterações finalizadas...\n\n" ANSI_COLOR_RESET );
+	printf(ANSI_COLOR_GREEN   "\nAlterações finalizadas...\n\n" ANSI_COLOR_RESET );
 
 }	
 
@@ -195,8 +206,8 @@ void buscarPorTipo(struct banda b[TAM], char tipo[80]){
             cont++;
         }
 	}
-    if(cont)
-        printf("\nNenhuma banda encontada com o tipo informado!\n");
+    if(!cont)
+        printf( ANSI_COLOR_RED "\nNenhuma banda encontada com o tipo informado!\n" ANSI_COLOR_RESET);
 }
 
 /**
@@ -228,7 +239,7 @@ void clear(){
  * @return void
  */
 void pause(){
-	printf("Aperte qualquer tecla para voltar ao menu...\n");
+	printf( ANSI_COLOR_MAGENTA "\nAperte qualquer tecla para voltar ao menu...\n" ANSI_COLOR_RESET);
 	getchar();
 	getchar();
 }
