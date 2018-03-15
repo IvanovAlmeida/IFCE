@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "variaveis.h"
 #include "prototipos.h"
 #include "funcoes.c"
@@ -13,7 +14,7 @@
 int main() {
 	int i, op, loop = 1;
 	char str[80];
-	struct banda bandas[TAM];
+	struct banda *bandas;
 
 	while(loop){
 		
@@ -24,7 +25,8 @@ int main() {
 		switch(op){
 
 			case 1:
-				cadastrarBandas(bandas);
+				//cadastrarBandas(bandas);
+				cadastrarBanda(bandas);
 				printf( ANSI_COLOR_GREEN "\n\nBandas cadastradas...\n");
 				break;
 

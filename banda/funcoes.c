@@ -41,6 +41,13 @@ void resetarCorConsole() {
  * @return void
  */
 void cadastrarBanda(struct banda *b){
+	quant_bandas++;
+
+	if(b == NULL)
+		b = (int *) malloc(sizeof(struct banda) * quant_bandas);
+	else
+		b = (int *) realloc(b, sizeof(struct banda) * quant_bandas);
+
 	getchar();
 	printf(ANSI_COLOR_CYAN "Nome da banda: " ANSI_COLOR_YELLOW);
 	gets(b->nome);

@@ -20,3 +20,5 @@ struct banda {
 	int n_integrantes;
 	int pos_ranking;
 };
+
+int quant_bandas = 0;
