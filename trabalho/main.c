@@ -2,14 +2,10 @@
 #include <stdio.h>
 #include <time.h>
 
-//#define __WIN32__ 0
-
 #ifndef  __WIN32__
-  #include <ncurses.h>
-    puts("ncurses");
-#elseif
+    #include <curses.h>
+#else
     #include <conio.h>
-    puts ("conio");
 #endif
 
 
@@ -111,7 +107,9 @@ void imprimirTabuleiro(){
 
 int main(){
 
-    imprimirTabuleiro();
+    while(!kbhit()){
+        movimentar();
+    }
 
     return 0;
 }
